@@ -2,6 +2,8 @@ package com.example.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class User {
     @Id
@@ -15,17 +17,19 @@ public class User {
     private String email;
     @OneToOne
     Credenziali credenziali;
-
+    @OneToMany
+    private List<TodoList> todoListList;
     public User(){
 
     }
 
-    public User(long id, String nome, String cognome, String email, Credenziali credenziali) {
+    public User(long id, String nome, String cognome, String email, Credenziali credenziali, List<TodoList> todoListList) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.credenziali = credenziali;
+        this.todoListList = todoListList;
     }
 
     public long getId() {
@@ -68,6 +72,14 @@ public class User {
         this.credenziali = credenziali;
     }
 
+    public List<TodoList> getTodoListList() {
+        return todoListList;
+    }
+
+    public void setTodoListList(List<TodoList> todoListList) {
+        this.todoListList = todoListList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -76,6 +88,7 @@ public class User {
                 ", cognome='" + cognome + '\'' +
                 ", email='" + email + '\'' +
                 ", credenziali=" + credenziali +
+                ", todoListList=" + todoListList +
                 '}';
     }
 }
