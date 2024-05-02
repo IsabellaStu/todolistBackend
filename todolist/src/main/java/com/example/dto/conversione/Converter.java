@@ -3,7 +3,7 @@ package com.example.dto.conversione;
 import com.example.dto.UserDto;
 import com.example.model.User;
 
-public class ConversioneUserAdUserDto {
+public class Converter {
 
     public static UserDto convertUserDto(User user) {
         UserDto userDto = new UserDto();

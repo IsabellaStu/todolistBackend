@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.dto.conversione.ConversioneUserAdUserDto;
+import com.example.dto.conversione.Converter;
 import com.example.dto.UserDto;
 import com.example.model.Credenziali;
 import com.example.model.User;
@@ -44,7 +44,7 @@ public class UserService {
         Optional<User> userOptional = userRepo.findByNome(nome);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-           UserDto userDto = ConversioneUserAdUserDto.convertUserDto(user);
+           UserDto userDto = Converter.convertUserDto(user);
             return userDto;
         }
         return null;
