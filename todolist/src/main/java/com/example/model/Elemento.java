@@ -22,6 +22,11 @@ public class Elemento {
         this.status = status;
     }
 
+    public Elemento(String name, boolean status) {
+        this.name = name;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }

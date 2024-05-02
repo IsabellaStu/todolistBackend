@@ -22,6 +22,11 @@ public class Credenziali {
         this.password = password;
     }
 
+    public Credenziali(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public long getId() {
         return id;
     }

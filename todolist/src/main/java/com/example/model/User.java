@@ -32,6 +32,14 @@ public class User {
         this.todoListList = todoListList;
     }
 
+    public User(String nome, String cognome, String email, Credenziali credenziali, List<TodoList> todoListList) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.credenziali = credenziali;
+        this.todoListList = todoListList;
+    }
+
     public long getId() {
         return id;
     }

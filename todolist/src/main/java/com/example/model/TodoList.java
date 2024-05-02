@@ -24,6 +24,11 @@ public TodoList(){
         this.elementiInLista = elementiInLista;
     }
 
+    public TodoList(String nomeLista, List<Elemento> elementiInLista) {
+        this.nomeLista = nomeLista;
+        this.elementiInLista = elementiInLista;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
