@@ -1,10 +1,15 @@
 package com.example.service;
 
+import com.example.model.Credenziali;
 import com.example.model.User;
 import com.example.repository.CredenzialiRepository;
 import com.example.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,13 +28,45 @@ public class UserService {
 
     public User addUser(User user){
         String username = user.getCredenziali().getUsername();
-        if(credeRepo.findByUsername(username) == null){
+        String email = user.getEmail();
+        if(credeRepo.findByUsername(username).isEmpty() && userRepo.findByEmail(email).isEmpty()){
             credeRepo.save(user.getCredenziali());
-            System.out.println("andato");
+            System.out.println("salvato");
         return userRepo.save(user);
 
         }
-        System.out.print("non andato");
+        System.out.print("non salvato");
         return null;
     }
+
+    public void deleteById(long id){
+     userRepo.deleteById(id);
+    }
+    @Transactional
+    public void deleteByUsername(String username, String email, String password) {
+        try {
+            Optional<Credenziali> usernameOptional = credeRepo.findByUsername(username);
+            Optional<User> userOptional = userRepo.findByEmail(email);
+
+            if (userOptional.isPresent() && usernameOptional.isPresent()) {
+                User user = userOptional.get();
+                Credenziali credenziali = usernameOptional.get();
+
+                if (password.equals(credenziali.getPassword()) && user.getEmail().equals(email)) {
+                    userRepo.deleteById(user.getId());
+                    credeRepo.deleteByUsernameAndPassword(username, password);
+
+                    System.out.println("eliminate");
+                } else {
+                    System.out.println("i dati non corrispondono");
+                }
+            } else {
+                System.out.println("non trovato");
+            }
+        } catch (Exception e) {
+            System.out.println("Errore ");
+            e.printStackTrace();
+        }
+    }
+
 }
