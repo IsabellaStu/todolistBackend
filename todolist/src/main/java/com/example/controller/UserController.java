@@ -35,10 +35,6 @@ public class UserController {
        return userService.findByname(nome);
     }
 
-    @PutMapping("editUsername/{username}/{nuovoUsername}")
-    public CredenzialiDto updateUser(@PathVariable String username, @PathVariable String nuovoUsername){
-        return credenzialiService.editUsername(username, nuovoUsername);
-    }
 
     @DeleteMapping ("delete/{username}/{email}/{password}")
     public ResponseEntity<String> deleteByUsername(@PathVariable String username, @PathVariable String email,@PathVariable String password){

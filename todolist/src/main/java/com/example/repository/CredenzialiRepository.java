@@ -9,5 +9,5 @@ public interface CredenzialiRepository extends JpaRepository<Credenziali, Long> 
 
     Optional<Credenziali> findByUsername(String username);
     Optional<Credenziali> deleteByUsernameAndPassword(String username, String password);
-
+    Optional<Credenziali> findByPassword(String password);
 }
