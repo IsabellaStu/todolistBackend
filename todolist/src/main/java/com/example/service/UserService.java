@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,29 +42,35 @@ public class UserService {
         return null;
     }
 
-    public UserDto findByname(String nome){
-        Optional<User> userOptional = userRepo.findByNome(nome);
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepo.findAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : users) {
+            userDtos.add(Converter.convertUserDto(user));
+        }
+       return userDtos;
+    }
+
+    public UserDto editEmail(String email, String nuovaEmail){
+        Optional<User>userOptional = userRepo.findByEmail(email);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-           UserDto userDto = Converter.convertUserDto(user);
+            user.setEmail(nuovaEmail);
+            userRepo.save(user);
+            UserDto userDto = Converter.convertUserDto(user);
             return userDto;
         }
         return null;
     }
-
-//    public User editUsername(String username, String nuovoUsername){
-//
-//        Optional<Credenziali> credenzialiOptional = credeRepo.findByUsername(username);
-//        if(credenzialiOptional.isPresent()){
-//            Credenziali credenziali = credenzialiOptional.get();
-//           User user = new User();
-//           credenziali.setUsername(nuovoUsername);
-//           user.setCredenziali(credenziali);
-//
-//            return user;
-//        }
-//   return null;
-//    }
+    public Optional<UserDto> findByname(String nome){
+        Optional<User> userOptional = userRepo.findByNome(nome);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+           UserDto userDto = Converter.convertUserDto(user);
+            return Optional.of(userDto);
+        }
+        return Optional.empty();
+    }
 
 
 

@@ -1,8 +1,6 @@
 package com.example.controller;
 
-import com.example.dto.CredenzialiDto;
 import com.example.dto.UserDto;
-import com.example.model.Credenziali;
 import com.example.model.User;
 import com.example.service.CredenzialiService;
 import com.example.service.UserService;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,12 +16,12 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
-    private CredenzialiService credenzialiService;
+
 
     @Autowired
-    public UserController(UserService userService, CredenzialiService credenzialiService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.credenzialiService = credenzialiService;
+
     }
 
     @PostMapping
@@ -30,11 +29,20 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @GetMapping("/findByName/{nome}")
-    public UserDto findByName(@PathVariable String nome){
+    @GetMapping("findByName/{nome}")
+    public Optional<UserDto> findByName(@PathVariable String nome){
        return userService.findByname(nome);
     }
 
+    @GetMapping
+    public List<UserDto> findAll(){
+        return userService.getAllUsers();
+    }
+
+    @PutMapping("editEmail/{email}/{nuovaEmail}")
+    public UserDto editEmail(@PathVariable String email, @PathVariable String nuovaEmail){
+        return userService.editEmail(email, nuovaEmail);
+    }
 
     @DeleteMapping ("delete/{username}/{email}/{password}")
     public ResponseEntity<String> deleteByUsername(@PathVariable String username, @PathVariable String email,@PathVariable String password){
