@@ -1,7 +1,10 @@
 package com.example.controller;
 
+import com.example.dto.CredenzialiDto;
 import com.example.dto.UserDto;
+import com.example.model.Credenziali;
 import com.example.model.User;
+import com.example.service.CredenzialiService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,12 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
+    private CredenzialiService credenzialiService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CredenzialiService credenzialiService) {
         this.userService = userService;
+        this.credenzialiService = credenzialiService;
     }
 
     @PostMapping
@@ -28,6 +33,11 @@ public class UserController {
     @GetMapping("/findByName/{nome}")
     public UserDto findByName(@PathVariable String nome){
        return userService.findByname(nome);
+    }
+
+    @PutMapping("editUsername/{username}/{nuovoUsername}")
+    public CredenzialiDto updateUser(@PathVariable String username, @PathVariable String nuovoUsername){
+        return credenzialiService.editUsername(username, nuovoUsername);
     }
 
     @DeleteMapping ("delete/{username}/{email}/{password}")

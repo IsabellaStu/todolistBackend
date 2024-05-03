@@ -50,6 +50,22 @@ public class UserService {
         return null;
     }
 
+//    public User editUsername(String username, String nuovoUsername){
+//
+//        Optional<Credenziali> credenzialiOptional = credeRepo.findByUsername(username);
+//        if(credenzialiOptional.isPresent()){
+//            Credenziali credenziali = credenzialiOptional.get();
+//           User user = new User();
+//           credenziali.setUsername(nuovoUsername);
+//           user.setCredenziali(credenziali);
+//
+//            return user;
+//        }
+//   return null;
+//    }
+
+
+
 
     @Transactional
     public void deleteUser(String username, String email, String password) {
