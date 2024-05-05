@@ -45,4 +45,9 @@ public class CredenzialiService {
         }
         return null;
     }
+
+    public boolean authenticate(String username, String password) {
+        Optional<Credenziali>usernameCredenziali = credenzialiRepository.findByUsername(username);
+        return usernameCredenziali.isPresent() && usernameCredenziali.get().getPassword().equals(password);
+    }
 }
