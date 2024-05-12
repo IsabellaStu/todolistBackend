@@ -88,22 +88,20 @@ public class UserService {
                 User user = userOptional.get();
                 Credenziali credenziali = credenzialiOptional.get();
 
-                // Verifica se le credenziali corrispondono
                 if (password.equals(credenziali.getPassword()) && user.getEmail().equals(email)) {
                     todoListRepo.deleteAll(user.getTodoListList());
-                    // Elimina le credenziali e l'utente
                     credeRepo.delete(credenziali);
                     userRepo.delete(user);
 
-                    System.out.println("Utente eliminato con successo.");
+                    System.out.println("eliminato");
                 } else {
-                    System.out.println("Le credenziali non corrispondono.");
+                    System.out.println("non corrispondenti");
                 }
             } else {
-                System.out.println("Utente non trovato.");
+                System.out.println("non trovato.");
             }
         } catch (Exception e) {
-            System.out.println("Si è verificato un errore durante l'eliminazione dell'utente.");
+            System.out.println("errore");
             e.printStackTrace();
         }
     }
