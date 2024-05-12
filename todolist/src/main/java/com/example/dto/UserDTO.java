@@ -1,7 +1,11 @@
 package com.example.dto;
 
 
-public class UserDto {
+import com.example.model.TodoList;
+
+import java.util.List;
+
+public class UserDTO {
     private long id;
 
     private String nome;
@@ -10,20 +14,24 @@ public class UserDto {
 
     private String email;
 
-    public UserDto(long id, String nome, String cognome, String email) {
+    private List<TodoList> todoListList;
+
+    public UserDTO(long id, String nome, String cognome, String email, List<TodoList> todoListList) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
+        this.todoListList = todoListList;
     }
 
-    public UserDto(String nome, String cognome, String email) {
+    public UserDTO(String nome, String cognome, String email, List<TodoList> todoListList) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
+        this.todoListList = todoListList;
     }
 
-    public UserDto(){
+    public UserDTO(){
 
     }
 
@@ -57,5 +65,13 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<TodoList> getTodoListList() {
+        return todoListList;
+    }
+
+    public void setTodoListList(List<TodoList> todoListList) {
+        this.todoListList = todoListList;
     }
 }

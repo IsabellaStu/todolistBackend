@@ -15,9 +15,9 @@ public class User {
     private String cognome;
     @Column
     private String email;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Credenziali credenziali;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<TodoList> todoListList;
     public User(){
 
@@ -38,6 +38,14 @@ public class User {
         this.email = email;
         this.credenziali = credenziali;
         this.todoListList = todoListList;
+    }
+
+    public void addListUser(TodoList list){
+        this.todoListList.add(list);
+    }
+
+    public void deleteTodoList (List<TodoList> todoList){
+        this.todoListList.removeAll(todoList);
     }
 
     public long getId() {

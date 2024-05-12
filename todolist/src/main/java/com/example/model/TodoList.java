@@ -11,22 +11,30 @@ public class TodoList {
     private Long id;
     @Column
     private String nomeLista;
-    @OneToMany
+    @ManyToOne
+    private User user;
+    @OneToMany(cascade = CascadeType.ALL)
     List<Elemento> elementiInLista;
 
 public TodoList(){
 
 }
 
-    public TodoList(Long id, String nomeLista, List<Elemento> elementiInLista) {
+    public TodoList(Long id, String nomeLista, User user, List<Elemento> elementiInLista) {
         this.id = id;
         this.nomeLista = nomeLista;
+        this.user = user;
         this.elementiInLista = elementiInLista;
     }
 
-    public TodoList(String nomeLista, List<Elemento> elementiInLista) {
+    public TodoList(String nomeLista, User user, List<Elemento> elementiInLista) {
         this.nomeLista = nomeLista;
+        this.user = user;
         this.elementiInLista = elementiInLista;
+    }
+
+    public void addElemento(Elemento elemento){
+    this.elementiInLista.add(elemento);
     }
 
     public void setId(Long id) {
@@ -53,11 +61,20 @@ public TodoList(){
         this.elementiInLista = elementiInLista;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "TodoList{" +
                 "id=" + id +
                 ", nomeLista='" + nomeLista + '\'' +
+                ", user=" + user +
                 ", elementiInLista=" + elementiInLista +
                 '}';
     }

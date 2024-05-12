@@ -1,8 +1,7 @@
 package com.example.controller;
 
-import com.example.dto.UserDto;
+import com.example.dto.UserDTO;
 import com.example.model.User;
-import com.example.service.CredenzialiService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +31,17 @@ public class UserController {
     }
 
     @GetMapping("findByName/{nome}")
-    public Optional<UserDto> findByName(@PathVariable String nome){
+    public Optional<UserDTO> findByName(@PathVariable String nome){
        return userService.findByname(nome);
     }
 
     @GetMapping
-    public List<UserDto> findAll(){
+    public List<UserDTO> findAll(){
         return userService.getAllUsers();
     }
 
     @PutMapping("editEmail/{email}/{nuovaEmail}")
-    public UserDto editEmail(@PathVariable String email, @PathVariable String nuovaEmail){
+    public UserDTO editEmail(@PathVariable String email, @PathVariable String nuovaEmail){
         return userService.editEmail(email, nuovaEmail);
     }
 

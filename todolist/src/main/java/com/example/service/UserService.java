@@ -1,10 +1,12 @@
 package com.example.service;
 
 import com.example.dto.conversione.Converter;
-import com.example.dto.UserDto;
+import com.example.dto.UserDTO;
 import com.example.model.Credenziali;
+import com.example.model.TodoList;
 import com.example.model.User;
 import com.example.repository.CredenzialiRepository;
+import com.example.repository.TodoListRepository;
 import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +22,14 @@ public class UserService {
 
     private UserRepository userRepo;
     private CredenzialiRepository credeRepo;
-
+    private TodoListRepository todoListRepo;
 
 
     @Autowired
-    public UserService(UserRepository userRepo, CredenzialiRepository credeRepo) {
+    public UserService(UserRepository userRepo, CredenzialiRepository credeRepo, TodoListRepository todoListRepo) {
         this.userRepo = userRepo;
         this.credeRepo = credeRepo;
+        this.todoListRepo = todoListRepo;
     }
 
     public User addUser(User user){
@@ -42,9 +45,9 @@ public class UserService {
         return null;
     }
 
-    public List<UserDto> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         List<User> users = userRepo.findAll();
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserDTO> userDtos = new ArrayList<>();
         for (User user : users) {
             userDtos.add(Converter.convertUserDto(user));
         }
@@ -52,22 +55,22 @@ public class UserService {
     }
 
 
-    public UserDto editEmail(String email, String nuovaEmail){
+    public UserDTO editEmail(String email, String nuovaEmail){
         Optional<User>userOptional = userRepo.findByEmail(email);
         if(userOptional.isPresent()){
             User user = userOptional.get();
             user.setEmail(nuovaEmail);
             userRepo.save(user);
-            UserDto userDto = Converter.convertUserDto(user);
+            UserDTO userDto = Converter.convertUserDto(user);
             return userDto;
         }
         return null;
     }
-    public Optional<UserDto> findByname(String nome){
+    public Optional<UserDTO> findByname(String nome){
         Optional<User> userOptional = userRepo.findByNome(nome);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-           UserDto userDto = Converter.convertUserDto(user);
+           UserDTO userDto = Converter.convertUserDto(user);
             return Optional.of(userDto);
         }
         return Optional.empty();
@@ -76,31 +79,34 @@ public class UserService {
 
 
 
-    @Transactional
     public void deleteUser(String username, String email, String password) {
         try {
-            Optional<Credenziali> usernameOptional = credeRepo.findByUsername(username);
+            Optional<Credenziali> credenzialiOptional = credeRepo.findByUsername(username);
             Optional<User> userOptional = userRepo.findByEmail(email);
 
-            if (userOptional.isPresent() && usernameOptional.isPresent()) {
+            if (userOptional.isPresent() && credenzialiOptional.isPresent()) {
                 User user = userOptional.get();
-                Credenziali credenziali = usernameOptional.get();
+                Credenziali credenziali = credenzialiOptional.get();
 
+                // Verifica se le credenziali corrispondono
                 if (password.equals(credenziali.getPassword()) && user.getEmail().equals(email)) {
-                    userRepo.deleteById(user.getId());
-                    credeRepo.deleteByUsernameAndPassword(username, password);
+                    todoListRepo.deleteAll(user.getTodoListList());
+                    // Elimina le credenziali e l'utente
+                    credeRepo.delete(credenziali);
+                    userRepo.delete(user);
 
-                    System.out.println("eliminate");
+                    System.out.println("Utente eliminato con successo.");
                 } else {
-                    System.out.println("i dati non corrispondono");
+                    System.out.println("Le credenziali non corrispondono.");
                 }
             } else {
-                System.out.println("non trovato");
+                System.out.println("Utente non trovato.");
             }
         } catch (Exception e) {
-            System.out.println("Errore ");
+            System.out.println("Si è verificato un errore durante l'eliminazione dell'utente.");
             e.printStackTrace();
         }
     }
+
 
 }

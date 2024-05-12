@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.dto.CredenzialiDto;
+import com.example.dto.CredenzialiDTO;
 import com.example.dto.conversione.Converter;
 import com.example.model.Credenziali;
 import com.example.repository.CredenzialiRepository;
@@ -23,13 +23,13 @@ public class CredenzialiService {
         this.credenzialiRepository = credenzialiRepository;
     }
 
-    public CredenzialiDto editUsername(String username, String nuovoUsername) {
+    public CredenzialiDTO editUsername(String username, String nuovoUsername) {
         Optional<Credenziali> optionalCredenziali = credenzialiRepository.findByUsername(username);
         if (optionalCredenziali.isPresent()) {
             Credenziali credenziali = optionalCredenziali.get();
             credenziali.setUsername(nuovoUsername);
             credenzialiRepository.save(credenziali);
-            CredenzialiDto convertiCredInDto = Converter.convertCredenzialiDto(credenziali);
+            CredenzialiDTO convertiCredInDto = Converter.convertCredenzialiDto(credenziali);
             return convertiCredInDto;
         }
         return null;

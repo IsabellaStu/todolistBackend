@@ -1,22 +1,20 @@
 package com.example.dto;
 
-import jakarta.persistence.Column;
-
-public class CredenzialiDto {
+public class CredenzialiDTO {
 
     private long id;
     private String username;
 
-    public CredenzialiDto() {
+    public CredenzialiDTO() {
 
     }
 
-    public CredenzialiDto(long id, String username) {
+    public CredenzialiDTO(long id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    public CredenzialiDto(String username) {
+    public CredenzialiDTO(String username) {
         this.username = username;
     }
 
